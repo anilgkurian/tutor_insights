@@ -47,6 +47,6 @@ async def validate_token(token: str = Depends(oauth2_scheme)):
 async def validate_admin_access(session: dict = Depends(validate_token)):
     user_id = session.get("user_id")
     if user_id != settings.ADMIN_USERNAME:
-         logger.warning(f"Access denied for user {user_id}. Admin only.")
+         logger.warning(f"Access denied for user {user_id}. Allowed only for {settings.ADMIN_USERNAME}.")
          raise HTTPException(status_code=403, detail="Admin access required")
     return session
