@@ -15,7 +15,7 @@ def get_sqs_client():
         "sqs",
         region_name=settings.AWS_REGION,
         aws_access_key_id=settings.AWS_Q_ACCESS_KEY_ID,
-        aws_secret_access_key=settings.AWS_Q_SECRET_ACCESS_KEY,
+        aws_secret_access_key=settings.AWS_Q_SECRET_ACCESS_KEY
     )
 
 def parse_timestamp(ts_str):
