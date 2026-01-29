@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     QUESTION_RETENTION_DAYS: int = 7
 
     # Auth
-    ADMIN_USERNAME: str = "admin"
+    ADMIN_USERNAME: str = os.getenv("ADMIN_USERNAME","admin")
     ALGORITHM: str = "EdDSA"
     PUBLIC_KEY: str = ""
     PUBLIC_KEY_BYTES: bytes = b""
