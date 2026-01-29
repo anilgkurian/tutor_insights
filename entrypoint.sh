@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-export DATABASE_URL="sqlite:///./db/tutor_insights.db"
+export INSIGHTS_DB_URL="sqlite:///./db/tutor_insights.db"
 
 echo "Running DB migrations..."
 alembic upgrade head
