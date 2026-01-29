@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     AWS_REGION: str = "ap-south-1"
     AWS_Q_ACCESS_KEY_ID: str = "test"
     AWS_Q_SECRET_ACCESS_KEY: str = "test"
-    AWS_ENDPOINT_URL: str = os.getenv("AWS_ENDPOINT_URL", "http://localhost:4566")
+    AWS_ENDPOINT_URL: str = os.getenv("AWS_ENDPOINT_URL")
     
     # Consumer Queues
     EXAMINER_QUEUE_URL: str = os.getenv("EXAMINER_QUEUE_URL", "http://localhost:4566/000000000000/tutor_examiner_queue")
