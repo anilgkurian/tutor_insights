@@ -48,6 +48,7 @@ jobs:
         EXAMINER_QUEUE_URL: ${{ secrets.EXAMINER_QUEUE_URL }}
         AWS_Q_ACCESS_KEY_ID: ${{ secrets.AWS_Q_ACCESS_KEY_ID }}
         AWS_Q_SECRET_ACCESS_KEY: ${{ secrets.AWS_Q_SECRET_ACCESS_KEY }}
+        ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
       with:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USER }}
@@ -78,6 +79,7 @@ jobs:
             -e EC2_HOST="$EC2_HOST" \
             -e EC2_USER="$EC2_USER" \
             -e EC2_SSH_KEY="$EC2_SSH_KEY" \
+            -e ADMIN_USERNAME="$ADMIN_USERNAME" \
             -p $HOST_PORT:$CONTAINER_PORT \
             -v /home/ec2-user/data/db:/app/db \
             --log-driver=awslogs \
