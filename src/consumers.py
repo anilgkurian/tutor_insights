@@ -11,12 +11,19 @@ import datetime
 logger = logging.getLogger("tutor_insights")
 
 def get_sqs_client():
-    return boto3.client(
-        "sqs",
-        region_name=settings.AWS_REGION,
-        aws_access_key_id=settings.AWS_Q_ACCESS_KEY_ID,
-        aws_secret_access_key=settings.AWS_Q_SECRET_ACCESS_KEY
-    )
+    client_kwargs = {
+        "service_name": "sqs",
+        "region_name": settings.AWS_REGION
+    }
+    
+    if settings.AWS_Q_ACCESS_KEY_ID and settings.AWS_Q_SECRET_ACCESS_KEY:
+        client_kwargs["aws_access_key_id"] = settings.AWS_Q_ACCESS_KEY_ID
+        client_kwargs["aws_secret_access_key"] = settings.AWS_Q_SECRET_ACCESS_KEY
+        
+    if settings.AWS_ENDPOINT_URL:
+        client_kwargs["endpoint_url"] = settings.AWS_ENDPOINT_URL
+        
+    return boto3.client(**client_kwargs)
 
 def parse_timestamp(ts_str):
     try:
