@@ -7,7 +7,7 @@ on:
 
 env:
   AWS_REGION: ap-south-1                   # set this to your preferred AWS region, e.g. us-west-1
-  ECR_REPOSITORY: tutor/tutor_insights_svc    # set this to your Amazon ECR repository name
+  ECR_REPOSITORY: tutor/insights_svc    # set this to your Amazon ECR repository name
 
 permissions:
   contents: read

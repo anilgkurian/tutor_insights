@@ -10,7 +10,7 @@ on:
 env:
   AWS_REGION: ap-south-1
   AWS_LOG_GROUP: tutor
-  ECR_REPOSITORY: tutor/tutor_insights_svc
+  ECR_REPOSITORY: tutor/insights_svc
   CONTAINER_NAME: tutor_insights_svc
   HOST_PORT: 4502
   CONTAINER_PORT: 4502
