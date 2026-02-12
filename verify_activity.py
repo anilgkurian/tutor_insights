@@ -20,7 +20,7 @@ from src.models import DailyActivity, WeeklyActivity
 # The user env likely has redis running.
 # Let's try to use real redis but with a test prefix or just clean up.
 try:
-    r = redis.from_url(settings.REDIS_URL, decode_responses=True)
+    r = redis.from_url(settings.REDIS_HOST, decode_responses=True)
     r.ping()
 except:
     print("Redis not available, skipping redis tests")
