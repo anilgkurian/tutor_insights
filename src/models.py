@@ -60,3 +60,30 @@ class QuestionsAskedWeekly(Base):
     __table_args__ = (
         UniqueConstraint('class_name', 'subject', 'week_start', name='uix_question_weekly'),
     )
+
+class DailyActivity(Base):
+    __tablename__ = "daily_activity"
+
+    id = Column(Integer, primary_key=True, index=True)
+    student_id = Column(String, index=True, nullable=False)
+    date = Column(Date, nullable=False, index=True)
+    seconds_active = Column(Integer, default=0)
+    subject = Column(String, index=True, nullable=True)
+
+    __table_args__ = (
+        UniqueConstraint('student_id', 'subject', 'date', name='uq_daily_activity_student_subject_date'),
+    )
+
+class WeeklyActivity(Base):
+    __tablename__ = "weekly_activity"
+
+    id = Column(Integer, primary_key=True, index=True)
+    student_id = Column(String, index=True, nullable=False)
+    week_start = Column(Date, nullable=False)
+    week_end = Column(Date, nullable=False)
+    seconds_active = Column(Integer, default=0)
+    subject = Column(String, index=True, nullable=True)
+
+    __table_args__ = (
+        UniqueConstraint('student_id', 'subject', 'week_start', name='uq_weekly_activity_student_subject_week'),
+    )

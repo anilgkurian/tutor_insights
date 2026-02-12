@@ -26,3 +26,4 @@ uvicorn==0.40.0
 PyJWT==2.8.0
 cryptography==42.0.5
 alembic
+redis>=5.0.0
