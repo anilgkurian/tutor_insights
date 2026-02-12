@@ -16,7 +16,7 @@ logger = logging.getLogger("tutor_insights")
 
 # Redis Connection
 try:
-    redis_client = redis.from_url(settings.REDIS_URL, decode_responses=True)
+    redis_client = redis.from_url(settings.REDIS_HOST, decode_responses=True)
 except Exception as e:
     logger.error(f"Failed to connect to Redis: {e}")
     redis_client = None
