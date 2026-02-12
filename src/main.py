@@ -41,7 +41,7 @@ def sync_daily_activity():
     Syncs daily activity from Redis to Database
     """
     try:
-        redis_client = redis.from_url(settings.REDIS_URL, decode_responses=True)
+        redis_client = redis.from_url(settings.REDIS_HOST, decode_responses=True)
         # Scan for keys: activity:{student_id}:{date}
         # We process keys from yesterday to avoid race conditions with ongoing heartbeats,
         # or process current day and update DB upsert style.

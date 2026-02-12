@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     QUESTION_RETENTION_DAYS: int = 7
 
     # Redis
-    REDIS_URL: str = os.getenv("REDIS_URL", "redis://localhost:6379/0")
+    REDIS_HOST: str = os.getenv("REDIS_HOST", "redis://localhost:6379/0")
 
     # Auth
     ADMIN_USERNAME: str = os.getenv("ADMIN_USERNAME","admin")
