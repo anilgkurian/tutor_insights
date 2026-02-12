@@ -21,6 +21,9 @@ class Settings(BaseSettings):
     TEST_PAPER_RETENTION_DAYS: int = 30
     QUESTION_RETENTION_DAYS: int = 7
 
+    # Redis
+    REDIS_URL: str = os.getenv("REDIS_URL", "redis://localhost:6379/0")
+
     # Auth
     ADMIN_USERNAME: str = os.getenv("ADMIN_USERNAME","admin")
     ALGORITHM: str = "EdDSA"
