@@ -24,12 +24,19 @@ class Settings(BaseSettings):
     # Redis
     REDIS_HOST: str = os.getenv("REDIS_HOST", "localhost")
     REDIS_PORT: int = 6379
+    REDIS_DB: int = 0
+    ACCOUNT_SERVICE_URL: str = os.getenv("ACCOUNT_SERVICE_URL", "http://localhost:4500")
 
     # Auth
     ADMIN_USERNAME: str = os.getenv("ADMIN_USERNAME","admin")
     ALGORITHM: str = "EdDSA"
     PUBLIC_KEY: str = ""
     PUBLIC_KEY_BYTES: bytes = b""
+    
+    # AI
+    OPENAI_API_KEY: str | None = os.getenv("OPENAI_API_KEY")
+
+    INTERNAL_API_KEY: str = os.getenv("INTERNAL_API_KEY", "super-secret-internal-key")
 
     class Config:
         env_file = ".env"
