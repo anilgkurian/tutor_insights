@@ -21,7 +21,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("tutor_insights")
 
 # Create Tables (for now, in prod use migration)
-Base.metadata.create_all(bind=engine)
+# Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Tutor Insights Service")
 
