@@ -94,4 +94,4 @@ def test_get_feedback_feature_disabled():
         response = client.get("/api/v1/feedback/?subject=Math")
     
     assert response.status_code == 403
-    assert response.json()["detail"] == "Feature BASIC_FEEDBACK_REPORT not enabled for this profile"
+    assert response.json()["detail"] == "Feedback report is not part of the plan, please upgrade your plan"

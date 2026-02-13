@@ -36,6 +36,8 @@ class Settings(BaseSettings):
     # AI
     OPENAI_API_KEY: str | None = os.getenv("OPENAI_API_KEY")
 
+    INTERNAL_API_KEY: str = os.getenv("INTERNAL_API_KEY", "super-secret-internal-key")
+
     class Config:
         env_file = ".env"
         extra = "ignore"

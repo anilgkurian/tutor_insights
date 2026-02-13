@@ -29,10 +29,10 @@ class FeedbackService:
         """
         url = f"{settings.ACCOUNT_SERVICE_URL}/features/profiles/BASIC_FEEDBACK_REPORT" # TODO: Check port/URL config
     
-        
+        headers = {"X-Internal-Secret": settings.INTERNAL_API_KEY}
         async with aiohttp.ClientSession() as session:
             try:
-                async with session.get(url) as response:
+                async with session.get(url, headers=headers) as response:
                     if response.status == 200:
                         return await response.json()
                     else:

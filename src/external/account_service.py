@@ -14,8 +14,10 @@ class AccountService:
         """
         try:
             async with httpx.AsyncClient() as client:
+                headers = {"X-Internal-Secret": settings.INTERNAL_API_KEY}
                 response = await client.get(
                     f"{self.base_url}/subscriptions/plan-details/{profile_id}",
+                    headers=headers,
                     timeout=5.0
                 )
                 if response.status_code == 200:
