@@ -5,7 +5,9 @@ from .database import engine, Base
 from .consumers import run_consumer, process_examiner_event, process_tutor_event
 from .config import settings
 from .aggregator import start_scheduler
-from .routers import insights, activity
+from .routers import insights, activity, feedback
+from .services.feedback_service import FeedbackService
+import asyncio
 from fastapi.middleware.cors import CORSMiddleware
 from apscheduler.schedulers.background import BackgroundScheduler
 from src.database import SessionLocal
@@ -34,6 +36,7 @@ app.add_middleware(
 
 app.include_router(insights.router)
 app.include_router(activity.router, prefix="/api/v1")
+app.include_router(feedback.router, prefix="/api/v1")
 
 # Background Jobs for Activity
 def sync_daily_activity():
@@ -247,6 +250,15 @@ def startup_event():
     scheduler.add_job(sync_daily_activity, 'interval', minutes=10)
     # Aggregate weekly stats daily at midnight
     scheduler.add_job(aggregate_weekly_activity, 'cron', hour=0, minute=5)
+
+    # Weekly Feedback Generation (e.g., Every Saturday at 3 AM)
+    feedback_service = FeedbackService()
+    
+    def run_feedback_generation():
+         asyncio.run(feedback_service.generate_weekly_feedback())
+
+    scheduler.add_job(run_feedback_generation, 'cron', day_of_week='sat', hour=3, timezone='Asia/Kolkata')
+
     scheduler.start()
 
 @app.get("/health")
