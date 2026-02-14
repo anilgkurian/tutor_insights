@@ -259,6 +259,15 @@ def startup_event():
 
     scheduler.add_job(run_feedback_generation, 'cron', day_of_week='sat', hour=3, timezone='Asia/Kolkata')
 
+    # Weekly Question Aggregation (Every Saturday at 2 AM)
+    from src.services.question_aggregation_service import QuestionAggregationService
+    aggregation_service = QuestionAggregationService()
+    
+    def run_question_aggregation():
+        asyncio.run(aggregation_service.aggregate_weekly_questions())
+
+    scheduler.add_job(run_question_aggregation, 'cron', day_of_week='sat', hour=2, timezone='Asia/Kolkata')
+
     scheduler.start()
 
 @app.get("/health")

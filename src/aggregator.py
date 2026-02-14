@@ -71,78 +71,10 @@ def aggregate_test_papers():
     finally:
         db.close()
 
-def aggregate_questions_asked():
-    logger.info("Running Questions Asked Aggregation...")
-    db = SessionLocal()
-    try:
-        # Retention Policy: > 7 Days
-        cutoff_date = datetime.datetime.utcnow() - datetime.timedelta(days=settings.QUESTION_RETENTION_DAYS)
-        
-        # SQLite weekly aggregation: strftime('%Y-%W', timestamp)
-        # Note: This gives Year-WeekNumber string, not a date. 
-        # For our model 'week_start' is DateTime. We'll approximate or just store the date of the first event in that group?
-        # Or better, just cast it. 
-        # Actually, let's keep it simple: group by YYYY-WW and for 'week_start' just use a calculated date in python or SQL.
-        # SQLite: datetime(timestamp, 'weekday 0', '-6 days') gives Monday of the week.
-        
-        results = db.query(
-            QuestionsAsked.class_name,
-            QuestionsAsked.subject,
-            func.date(QuestionsAsked.timestamp, 'weekday 0', '-6 days').label('week_start_str'),
-            func.count(QuestionsAsked.id).label('count')
-        ).filter(
-            QuestionsAsked.timestamp < cutoff_date
-        ).group_by(
-            QuestionsAsked.class_name,
-            QuestionsAsked.subject,
-            func.date(QuestionsAsked.timestamp, 'weekday 0', '-6 days')
-        ).all()
-        
-        for row in results:
-            # SQLite returns strings for date functions
-            # Since we used func.date, we get YYYY-MM-DD
-            try:
-                week_start_dt = datetime.datetime.strptime(row.week_start_str, "%Y-%m-%d").date()
-            except:
-                # fallback
-                week_start_dt = datetime.datetime.utcnow().date()
-
-            existing = db.query(QuestionsAskedWeekly).filter(
-                QuestionsAskedWeekly.class_name == row.class_name,
-                QuestionsAskedWeekly.subject == row.subject,
-                QuestionsAskedWeekly.week_start == week_start_dt
-            ).first()
-            
-            if existing:
-                existing.no_of_questions += row.count
-            else:
-                new_record = QuestionsAskedWeekly(
-                    class_name=row.class_name,
-                    subject=row.subject,
-                    week_start=week_start_dt,
-                    no_of_questions=row.count
-                )
-                db.add(new_record)
-        
-        db.commit()
-        
-        deleted = db.query(QuestionsAsked).filter(QuestionsAsked.timestamp < cutoff_date).delete(synchronize_session=False)
-        db.commit()
-        logger.info(f"Aggregated questions. Deleted {deleted} old records.")
-
-    except Exception as e:
-        logger.error(f"Error aggregating questions: {e}")
-        db.rollback()
-    finally:
-        db.close()
-
 def start_scheduler():
     scheduler = BackgroundScheduler()
     # Run Test Papers Aggregation: 1st of every month at 3 AM IST (Asia/Kolkata)
     scheduler.add_job(aggregate_test_papers, 'cron', day='1', hour='3', timezone='Asia/Kolkata')
-    
-    # Run Questions Aggregation: Every Sunday at 3 AM IST (Asia/Kolkata)
-    scheduler.add_job(aggregate_questions_asked, 'cron', day_of_week='sun', hour='3', timezone='Asia/Kolkata')
     
     scheduler.start()
     logger.info("Scheduler started.")
