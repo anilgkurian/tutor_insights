@@ -5,7 +5,7 @@ import boto3
 import uuid
 from datetime import datetime
 from src.database import SessionLocal
-from src.models import TestPapers, QuestionsAsked, TestPapersMonthly, QuestionsAskedWeekly
+from src.models import TestPapers, QuestionsAsked, TestPapersMonthly
 
 # Helper to clear DB
 def clear_db():
@@ -13,7 +13,6 @@ def clear_db():
     db.query(TestPapers).delete()
     db.query(QuestionsAsked).delete()
     db.query(TestPapersMonthly).delete()
-    db.query(QuestionsAskedWeekly).delete()
     db.commit()
     db.close()
     print("DB Cleared")

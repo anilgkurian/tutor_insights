@@ -46,20 +46,7 @@ class QuestionsAsked(Base):
     timestamp = Column(DateTime, default=datetime.datetime.utcnow)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
-class QuestionsAskedWeekly(Base):
-    __tablename__ = "questions_asked_weekly"
-    
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    class_name = Column(String, index=True)
-    subject = Column(String, index=True)
-    no_of_questions = Column(Integer, default=0)
-    # week_start stores the date of the Monday of the week
-    week_start = Column(Date)
-    created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
-    __table_args__ = (
-        UniqueConstraint('class_name', 'subject', 'week_start', name='uix_question_weekly'),
-    )
 
 class DailyActivity(Base):
     __tablename__ = "daily_activity"
@@ -112,3 +99,19 @@ class Feedback(Base):
         # VALIDATION: "overwriting previous one" -> likely means Single Record implementation for now.
     )
 
+
+class QuestionsWeeklyAggr(Base):
+    __tablename__ = "questions_weekly_aggr"
+    
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(String, index=True)
+    profile_id = Column(String, index=True)
+    class_name = Column(String, index=True)
+    subject = Column(String, index=True)
+    count = Column(Integer, default=0)
+    date = Column(Date, index=True)
+    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+
+    __table_args__ = (
+        UniqueConstraint('user_id', 'profile_id', 'class_name', 'subject', 'date', name='uix_question_weekly_aggr'),
+    )
