@@ -1,7 +1,7 @@
 from apscheduler.schedulers.background import BackgroundScheduler
-from sqlalchemy import func, text
+from sqlalchemy import func
 from .database import SessionLocal
-from .models import TestPapers, TestPapersMonthly, QuestionsAsked, QuestionsAskedWeekly
+from .models import TestPapers, TestPapersMonthly
 from .config import settings
 import logging
 import datetime

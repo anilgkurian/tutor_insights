@@ -257,7 +257,7 @@ def startup_event():
     def run_feedback_generation():
          asyncio.run(feedback_service.generate_weekly_feedback())
 
-    scheduler.add_job(run_feedback_generation, 'cron', day_of_week='sat', hour=3, timezone='Asia/Kolkata')
+    scheduler.add_job(run_feedback_generation, 'cron', day_of_week='sat', hour=11, timezone='Asia/Kolkata')
 
     # Weekly Question Aggregation (Every Saturday at 2 AM)
     from src.services.question_aggregation_service import QuestionAggregationService
@@ -266,7 +266,7 @@ def startup_event():
     def run_question_aggregation():
         asyncio.run(aggregation_service.aggregate_weekly_questions())
 
-    scheduler.add_job(run_question_aggregation, 'cron', day_of_week='sat', hour=2, timezone='Asia/Kolkata')
+    scheduler.add_job(run_question_aggregation, 'cron', day_of_week='sat', hour=11, timezone='Asia/Kolkata')
 
     scheduler.start()
 
