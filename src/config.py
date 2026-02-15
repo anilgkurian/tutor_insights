@@ -6,37 +6,12 @@ load_dotenv()
 
 class Settings(BaseSettings):
     INSIGHTS_DB_URL: str = os.getenv("INSIGHTS_DB_URL", "sqlite:///./tutor_insights.db")
-    
-    # AWS / SQS
-    AWS_REGION: str = "ap-south-1"
-    AWS_Q_ACCESS_KEY_ID: str | None = None
-    AWS_Q_SECRET_ACCESS_KEY: str | None = None
-    AWS_ENDPOINT_URL: str | None = os.getenv("AWS_ENDPOINT_URL")
-    
-    # Consumer Queues
-    EXAMINER_QUEUE_URL: str | None = os.getenv("EXAMINER_QUEUE_URL")
-    TUTOR_QUEUE_URL: str | None = os.getenv("TUTOR_QUEUE_URL")
-
-    # Retention config
-    TEST_PAPER_RETENTION_DAYS: int = 30
-    QUESTION_RETENTION_DAYS: int = 7
-
-    # Redis
-    REDIS_HOST: str = os.getenv("REDIS_HOST", "localhost")
-    REDIS_PORT: int = 6379
-    REDIS_DB: int = 0
-    ACCOUNT_SERVICE_URL: str = os.getenv("ACCOUNT_SERVICE_URL", "http://localhost:4500")
 
     # Auth
-    ADMIN_USERNAME: str = os.getenv("ADMIN_USERNAME","admin")
+    ADMIN_USERNAME: str = os.getenv("ADMIN_USERNAME", "admin")
     ALGORITHM: str = "EdDSA"
     PUBLIC_KEY: str = ""
     PUBLIC_KEY_BYTES: bytes = b""
-    
-    # AI
-    OPENAI_API_KEY: str | None = os.getenv("OPENAI_API_KEY")
-
-    INTERNAL_API_KEY: str = os.getenv("INTERNAL_API_KEY", "super-secret-internal-key")
 
     class Config:
         env_file = ".env"
